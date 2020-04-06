@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-require('./state');
-
 function transform(doc,ret){
   var id = doc._id;
   delete ret._id;
@@ -19,26 +17,33 @@ var params =  {
 
 
 //User Schema
-const DistrictSchema = mongoose.Schema({
-    name_el:String,
-    name_ml:String,
-
+const DepartmentsTypeSchema = mongoose.Schema({
+  
+    name_el : String,
+    name_ml : String,
+  //   office:{
+  //     sl_no:Number,
+  //     name:Number
+  //   },
   created_at : {
     type: Date,
     default:Date.now()
-  } , 
+  }, 
   modified_at : {
     type: Date,
     default:Date.now()
   }
+
+  
+
 },params);
 
 
-module.exports = mongoose.model('district', DistrictSchema);
+module.exports = mongoose.model('Departments', DepartmentsTypeSchema);
 
 
-module.exports.addDistrict = function (newDistrict, callback) {
-    newDistrict.save(callback);
+module.exports.addDepartments= function (newDepartments, callback) {
+  newDepartments.save(callback);
   };
 
 

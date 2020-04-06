@@ -2,6 +2,20 @@ const mongoose = require('mongoose');
 require('./state');
 
 function transform(doc,ret){
+  if(ret.district_id){
+    ret.district= ret.district_id;
+    delete ret.district_id;
+  }
+  else{
+    ret.district={
+      name_el:'',
+      name_ml:''
+
+    }
+  }
+
+
+
   var id = doc._id;
   delete ret._id;
   ret.id = id;
@@ -19,10 +33,16 @@ var params =  {
 
 
 //User Schema
-const DistrictSchema = mongoose.Schema({
+const BLOCKTypeSchema = mongoose.Schema({
+    
     name_el:String,
     name_ml:String,
 
+    district_id:{
+      ref:'district',
+     type :mongoose.Schema.Types.ObjectId
+    },
+  
   created_at : {
     type: Date,
     default:Date.now()
@@ -34,11 +54,11 @@ const DistrictSchema = mongoose.Schema({
 },params);
 
 
-module.exports = mongoose.model('district', DistrictSchema);
+module.exports = mongoose.model('block', BLOCKTypeSchema);
 
 
-module.exports.addDistrict = function (newDistrict, callback) {
-    newDistrict.save(callback);
+module.exports.addnewBLOCK = function (newBLOCK, callback) {
+    newBLOCK.save(callback);
   };
 
 

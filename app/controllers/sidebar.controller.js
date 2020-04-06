@@ -12,7 +12,11 @@ const exp = req.identity.exp;
     //    var fields = ['name', 'id']
         try{
             const data= await SideBar.find()
-            res.send(data);
+            res.send({
+                success:1,
+                items:data,    
+            
+            });
             // res.json(data);
             } catch(err){
                 res.send({message:err});
@@ -81,3 +85,35 @@ const exp = req.identity.exp;
 
 
 
+// {
+//     "success": 1,
+//     "imageBase":"https://images.unsplash.com/",
+
+//     "items": [
+//         {
+//             "image":"photo-1558981033-f5e2ddd9c57e",
+            
+//             "name": "ddasda",
+//             "sort_order": 1,
+//             "__v": 0,
+//             "id": "5e79e9fd0543132dccb64e49"
+//         },
+//         {
+//             "image":"photo-1558981033-f5e2ddd9c57e",
+//             "name": "jaiva",
+//             "sort_order": 1,
+//             "__v": 0,
+//             "id": "5e79dff90543132dccb64e48"
+//         },
+//         {
+//             "image":"photo-1558981033-f5e2ddd9c57e",
+//             "name": "kambost waste",
+//             "sort_order": 1,
+//             "__v": 0,
+//             "id": "5e79cceef0e3ea170c1ec616"
+//         }
+//     ],
+//     "totalpages": null,
+//     "nPerPage": null,
+//     "pageNumber": null
+// }

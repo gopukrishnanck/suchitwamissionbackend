@@ -15,34 +15,27 @@ var params =  {
   }
 };
 
-//User Schema
-const WardSchema = mongoose.Schema({
-    ward_number: Number,
-    name_el : String,
-    name_ml: String,
-   
 
+//User Schema
+const settingsSchema = mongoose.Schema({
+    sl_no:Number,
+    title : String,
+    description :String,
+    phone:Number,
+    email:String,
   created_at : {
     type: Date,
     default:Date.now()
   } ,
 
-  
-  modified_at : {
-    type: Date,
-    default:Date.now()
-  }
-
-  
-
 },params);
 
 
-module.exports = mongoose.model('Ward', WardSchema);
+module.exports = mongoose.model('settingss', settingsSchema);
 
 
-module.exports.addWard = function (newWard, callback) {
-    newWard.save(callback);
+module.exports.addSetting = function (newSetting, callback) {
+    newSetting.save(callback);
   };
 
 

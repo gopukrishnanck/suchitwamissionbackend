@@ -13,6 +13,11 @@ module.exports = {
     },
     passwordupdate:(req,res,next)=>{
         var password = req.body.password
+
+        editUser.comparePassword(password, req.identity.password, (err, isMatch) => {
+            if (err) throw err;
+            if (isMatch) {
+
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
               if (err) throw err;
@@ -27,6 +32,7 @@ module.exports = {
       });     
 
     });
+}})
 
     },
 

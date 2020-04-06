@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('./state');
+
 
 function transform(doc,ret){
   var id = doc._id;
@@ -19,10 +19,12 @@ var params =  {
 
 
 //User Schema
-const DistrictSchema = mongoose.Schema({
-    name_el:String,
-    name_ml:String,
-
+const PercentageSchema = mongoose.Schema({
+   
+  sl_no:Number,
+  start_value: Number,
+  end_value:Number,
+  point:Number,
   created_at : {
     type: Date,
     default:Date.now()
@@ -34,11 +36,11 @@ const DistrictSchema = mongoose.Schema({
 },params);
 
 
-module.exports = mongoose.model('district', DistrictSchema);
+module.exports = mongoose.model('percentage', PercentageSchema);
 
 
-module.exports.addDistrict = function (newDistrict, callback) {
-    newDistrict.save(callback);
+module.exports.addnewPercentage = function (newPercentage, callback) {
+  newPercentage.save(callback);
   };
 
 

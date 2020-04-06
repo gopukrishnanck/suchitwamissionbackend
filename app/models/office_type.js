@@ -19,10 +19,9 @@ var params =  {
 
 
 //User Schema
-const DistrictSchema = mongoose.Schema({
-    name_el:String,
-    name_ml:String,
-
+const OfficeTypeSchema = mongoose.Schema({
+    sl_no:Number,
+    name:String,
   created_at : {
     type: Date,
     default:Date.now()
@@ -34,11 +33,11 @@ const DistrictSchema = mongoose.Schema({
 },params);
 
 
-module.exports = mongoose.model('district', DistrictSchema);
+module.exports = mongoose.model('office_types', OfficeTypeSchema);
 
 
-module.exports.addDistrict = function (newDistrict, callback) {
-    newDistrict.save(callback);
+module.exports.addnewOffice = function (newOffice, callback) {
+    newOffice.save(callback);
   };
 
 

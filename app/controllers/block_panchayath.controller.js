@@ -1,4 +1,4 @@
-const LSGI = require('../models/lsgi');
+const BLOCK = require('../models/block_panchayath');
 var url = require('url')
 const mongoose = require('mongoose')
 
@@ -7,8 +7,8 @@ module.exports = {
     //GET
     read: async(req, res, next) => {
         // const url = require('url').parse(req.url,true).query;    
-       var  per_page= parseInt(req.query.per_page,10);
-      var    page= parseInt(req.query.page,10);
+       var  per_page = parseInt(req.query.per_page,10);
+      var    page    = parseInt(req.query.page,10);
   
     //    console.log(req.query)
      // var parsed = url.parse();
@@ -19,13 +19,13 @@ module.exports = {
     //   var  fields = ['name','id'];
     
       try{
-            // console.log(nPerPage);
-            // console.log(pageNumber);
-            var sortByName ={name:1,district:1}
+            console.log(per_page);
+            console.log(page);
 
-            const totalItems = await LSGI.countDocuments();
+            const totalItems = await BLOCK.countDocuments();
+            var sortByName= {name_el:1}
             
-            const data= await LSGI.find().sort(sortByName).populate(['district_id','lsgi_type_id']).skip(page > 0 ? ( ( page - 1 ) * per_page ) : 0).limit(per_page );
+            const data= await BLOCK.find().sort(sortByName).populate(['district_id']).skip(page > 0 ? ( ( page - 1 ) * per_page ) : 0).limit(per_page );
          
             const total_pages =  Math.ceil(totalItems/per_page);
             res.send({
@@ -46,20 +46,21 @@ module.exports = {
     //GET
     readeach: async(req, res, next) => {
         try{
-            const data= await LSGI.findById(req.params.id)
+            const data= await BLOCK.findById(req.params.id)
          
-            res.json(data);
+
+            res.send(data);
             } catch(err){
                 res.json({message:err});
             }
     },
     //POST
     create: (req,res,next)=>{
-        let  newLSGI = new LSGI(req.body);
-        newLSGI.district_id = new mongoose.Types.ObjectId(newLSGI.district_id);
-        newLSGI.lsgi_type_id = new mongoose.Types.ObjectId(newLSGI.lsgi_type_id);
-
-        LSGI.addnewLSGI(newLSGI, (err, state) => {
+      
+        
+        let  newBLOCK = new BLOCK(req.body);
+        newBLOCK.district_id = new mongoose.Types.ObjectId(newBLOCK.district_id);
+        BLOCK.addnewBLOCK(newBLOCK, (err, state) => {
             if (err) {
                 //res.json(err)
                 res.json({ success: false, msg: 'Failed to register ' });
@@ -71,9 +72,7 @@ module.exports = {
     },
     //PUT
     update:(req,res,next)=>{
-        
-        LSGI.findByIdAndUpdate(req.params.id,
-           
+        BLOCK.findByIdAndUpdate(req.params.id, BLOCK.district_id,
             {$set:req.body
             }, {new:true},
             (err,data)=>{
@@ -82,7 +81,7 @@ module.exports = {
                         res.json({ success: true, msg: ' Updated ok..!' });
                      }
                      else {
-                        LSGI.district_id=new mongoose.Types.ObjectId(LSGI.district_id);
+                        
                         res.json({ success: false, msg: 'Failed to Update ', err});
                    }   
                 });
@@ -91,7 +90,7 @@ module.exports = {
     //DELETE
     delete: async(req,res,next)=>{
         try {
-            const removeData = await LSGI.findByIdAndRemove(req.params.id)
+            const removeData = await BLOCK.findByIdAndRemove(req.params.id)
             res.json(removeData);
                 }catch(err){
                     res.json(err)

@@ -16,33 +16,29 @@ var params =  {
 };
 
 //User Schema
-const WardSchema = mongoose.Schema({
-    ward_number: Number,
+const CatSchema = mongoose.Schema({
+
     name_el : String,
     name_ml: String,
-   
+    image: String,
+    image_base:String,
+    child_page_layout:String,
 
-  created_at : {
-    type: Date,
-    default:Date.now()
-  } ,
+  sort_order:Number,
+ 
 
   
-  modified_at : {
-    type: Date,
-    default:Date.now()
-  }
 
   
 
 },params);
 
 
-module.exports = mongoose.model('Ward', WardSchema);
+module.exports = mongoose.model('category', CatSchema);
 
 
-module.exports.addWard = function (newWard, callback) {
-    newWard.save(callback);
+module.exports.addCat = function (newCat, callback) {
+    newCat.save(callback);
   };
 
 
