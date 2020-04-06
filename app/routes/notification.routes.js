@@ -1,6 +1,7 @@
+
 module.exports = (app, methods) => {
 
-    const user = methods.loadController('settings');
+    const user = methods.loadController('notification');
     user.methods.get('/', user.read, { auth: true });
     user.methods.get(':id', user.readeach, { auth: true });
     user.methods.post('/', user.create, { auth: true });

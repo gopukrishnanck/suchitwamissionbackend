@@ -34,7 +34,6 @@ const SideBarSchema = mongoose.Schema({
              sub_menu_link: String   
     }],
     class:String
-  
 },params);
 
 

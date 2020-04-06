@@ -17,10 +17,18 @@ var params =  {
 
 //User Schema
 const WardSchema = mongoose.Schema({
-    ward_number: Number,
-    name_el : String,
-    name_ml: String,
-   
+
+    name :   String,
+    code:    String,
+    lsgi_id: Number,
+    ward_no: String,
+    name_en: String,
+  sort_order:Number,
+  status : {
+      type : Number,
+      default : 1
+
+  },
 
   created_at : {
     type: Date,

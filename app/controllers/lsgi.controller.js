@@ -1,53 +1,22 @@
-const LSGI = require('../models/lsgi');
-var url = require('url')
-const mongoose = require('mongoose')
-
-const querystring = require('querystring');
+const Lsgi = require('../models/lsgi');
 module.exports = {
     //GET
     read: async(req, res, next) => {
-        // const url = require('url').parse(req.url,true).query;    
-       var  per_page= parseInt(req.query.per_page,10);
-      var    page= parseInt(req.query.page,10);
-  
-    //    console.log(req.query)
-     // var parsed = url.parse();
-
-    //console.log(parsed);
-    //    console.log(req.params.pageNumber);
-
-    //   var  fields = ['name','id'];
-    
-      try{
-            // console.log(nPerPage);
-            // console.log(pageNumber);
-            var sortByName ={name:1,district:1}
-
-            const totalItems = await LSGI.countDocuments();
-            
-            const data= await LSGI.find().sort(sortByName).populate(['district_id','lsgi_type_id']).skip(page > 0 ? ( ( page - 1 ) * per_page ) : 0).limit(per_page );
-         
-            const total_pages =  Math.ceil(totalItems/per_page);
-            res.send({
-                success:1,
-                items:data,
-                total_pages:total_pages,
-                per_page:per_page,
-                page:page
-                // x: parseInt(District.length)
-            })
-        
-    
-            
+       const nPerPage=3;
+       const pageNumber= 0;
+       var fields = ['name', 'id']
+        try{
+            const data= await Lsgi.find({status:1},fields).skip(pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0).limit(nPerPage
+                );
+            res.json(data);
             } catch(err){
-                res.json(err);
+                res.json({message:err});
             }
     },
     //GET
     readeach: async(req, res, next) => {
         try{
-            const data= await LSGI.findById(req.params.id)
-         
+            const data= await Lsgi.findById(req.params.id);
             res.json(data);
             } catch(err){
                 res.json({message:err});
@@ -55,34 +24,79 @@ module.exports = {
     },
     //POST
     create: (req,res,next)=>{
-        let  newLSGI = new LSGI(req.body);
-        newLSGI.district_id = new mongoose.Types.ObjectId(newLSGI.district_id);
-        newLSGI.lsgi_type_id = new mongoose.Types.ObjectId(newLSGI.lsgi_type_id);
-
-        LSGI.addnewLSGI(newLSGI, (err, state) => {
+        let  newLsgi = new Lsgi({
+            name: req.body.name,
+            block_id:req.body.block_id,
+            lsgi_type_id:req.body.lsgi_type_id,
+            image_id:req.body.image_id,
+            address:req.body.address,
+            code:req.body.code,
+            sort_order:req.body.sort_order,
+            default_service_rate:req.body.default_service_rate,
+            default_complaint_rate:req.body.default_complaint_rate,
+            is_camera_surveillance_required:req.body.is_camera_surveillance_required,
+            is_wastemanagement_required:req.body.is_wastemanagement_required,
+            service_assigment_expiry_hours:req.body.service_assigment_expiry_hours,
+            rating_calculation_interval_hours:req.body.rating_calculation_interval_hours,
+            complaints_count_rating_calculation_interval_hours:req.body.complaints_count_rating_calculation_interval_hours,
+            default_service_point:req.body.default_service_point,
+            header_image_id:req.body.header_image_id,
+            footer_image_id:req.body.footer_image_id,
+            default_slab_rate:req.body.default_slab_rate,
+            camera_fault_calculation_interval_hours:req.body.camera_fault_calculation_interval_hours,
+            gst_no:req.body.gst_no,
+            cgst_percentage:req.body.cgst_percentage,
+            sgst_percentage:req.body.sgst_percentage,
+            status : req.body.status,
+            created_at :Date.now(),
+            modified_at: Date.now()
+        });
+        Lsgi.addLsgi(newLsgi, (err, state) => {
             if (err) {
-                //res.json(err)
+            
                 res.json({ success: false, msg: 'Failed to register ' });
             } else {
-               // res.json(state)
+               
                 res.json({ success: true, msg: ' registered' });
             }
         });
     },
     //PUT
     update:(req,res,next)=>{
-        
-        LSGI.findByIdAndUpdate(req.params.id,
-           
-            {$set:req.body
+        Lsgi.findByIdAndUpdate(req.params.id,
+               {$set:{  
+               name: req.body.name,
+                block_id:req.body.block_id,
+                lsgi_type_id:req.body.lsgi_type_id,
+                image_id:req.body.image_id,
+                address:req.body.address,
+                code:req.body.code,
+                sort_order:req.body.sort_order,
+                default_service_rate:req.body.default_service_rate,
+                default_complaint_rate:req.body.default_complaint_rate,
+                is_camera_surveillance_required:req.body.is_camera_surveillance_required,
+                is_wastemanagement_required:req.body.is_wastemanagement_required,
+                service_assigment_expiry_hours:req.body.service_assigment_expiry_hours,
+                rating_calculation_interval_hours:req.body.rating_calculation_interval_hours,
+                complaints_count_rating_calculation_interval_hours:req.body.complaints_count_rating_calculation_interval_hours,
+                default_service_point:req.body.default_service_point,
+                header_image_id:req.body.header_image_id,
+                footer_image_id:req.body.footer_image_id,
+                default_slab_rate:req.body.default_slab_rate,
+                camera_fault_calculation_interval_hours:req.body.camera_fault_calculation_interval_hours,
+                gst_no:req.body.gst_no,
+                cgst_percentage:req.body.cgst_percentage,
+                sgst_percentage:req.body.sgst_percentage,
+                status : req.body.status,
+                modified_at: Date.now()
+            }
             }, {new:true},
             (err,data)=>{
                      if(!err)
                      {
-                        res.json({ success: true, msg: ' Updated ok..!' });
+                        res.json({ success: true, msg: 'Updated ok..!' });
                      }
                      else {
-                        LSGI.district_id=new mongoose.Types.ObjectId(LSGI.district_id);
                         res.json({ success: false, msg: 'Failed to Update ', err});
                    }   
                 });
@@ -91,7 +105,7 @@ module.exports = {
     //DELETE
     delete: async(req,res,next)=>{
         try {
-            const removeData = await LSGI.findByIdAndRemove(req.params.id)
+            const removeData = await Lsgi.findByIdAndRemove(req.params.id)
             res.json(removeData);
                 }catch(err){
                     res.json(err)

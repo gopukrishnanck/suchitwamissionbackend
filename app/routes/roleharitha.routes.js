@@ -1,6 +1,7 @@
+
 module.exports = (app, methods) => {
 
-    const user = methods.loadController('sub_category');
+    const user = methods.loadController('roleharitha');
     user.methods.get('/', user.read, { auth: true });
     user.methods.get(':id', user.readeach, { auth: true });
     user.methods.post('/', user.create, { auth: true });

@@ -20,17 +20,32 @@ var params =  {
 
 //User Schema
 const DistrictSchema = mongoose.Schema({
-    name_el:String,
-    name_ml:String,
+
+    name : String,
+    state_id: Number,
+    state_name:String,
+    // state:[{ type: mongoose.Schema.Types.ObjectId, ref: 'State' }],
+    
+
+  sort_order : Number,
+  status : {
+      type : Number,
+      default : 1
+
+  },
 
   created_at : {
     type: Date,
     default:Date.now()
-  } , 
+  } ,
+
+  
   modified_at : {
     type: Date,
     default:Date.now()
   }
+
+
 },params);
 
 

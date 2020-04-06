@@ -16,7 +16,7 @@ module.exports = {
                 if (err) throw err;
                 if (isMatch) {
                     const token = jwt.sign(user.toJSON(), config.development.jwt.secret, {
-                        expiresIn: 500000 //4 hours
+                        expiresIn: 64000 //1 hours
                     });
 
                     res.send({
