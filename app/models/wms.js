@@ -1,6 +1,34 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+function transform(doc,ret){
 
+
+
+  if(ret.role_id){
+    ret.role= ret.role_id;
+    delete ret.role_id;
+  }
+  else{
+    ret.role=[{
+ 
+    
+    }]
+  }
+
+
+  var id = doc._id;
+  delete ret._id;
+  ret.id = id;
+  console.log(id)
+}
+var params =  {
+  toObject: {
+    transform: transform
+  },
+  toJSON: {
+    transform: transform
+  }
+};
 //User Schema
 const WmsSchema = mongoose.Schema({
 
@@ -8,6 +36,10 @@ const WmsSchema = mongoose.Schema({
 
     email: String,
 
+    role_id:{
+      ref:'role',
+     type :mongoose.Schema.Types.ObjectId
+    },
     username: String,
 
     password: String,

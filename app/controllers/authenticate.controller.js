@@ -15,13 +15,18 @@ module.exports = {
             User.comparePassword(password, user.password, (err, isMatch) => {
                 if (err) throw err;
                 if (isMatch) {
+                  
+                    
+                
                     const token = jwt.sign(user.toJSON(), config.development.jwt.secret, {
+                        
                         expiresIn: 500000 //4 hours
                     });
 
                     res.send({
                         success: true,
                         token: token,
+                        user:user,
                         expiresIn: 14400
                     });
                 } else {
